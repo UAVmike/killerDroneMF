@@ -66,7 +66,7 @@ def resize(w,h,wmax,hmax):
 
 def initialize_modulation(modulation):
     def init_by_modulation(num):
-        nonlocal B_box_width, B_box_heith, center_constant
+        global B_box_width, B_box_heith, center_constant
         B_box_width=round(h/num)
         B_box_heith=round(w/num)
         center_constant[0]=round(w/num)
