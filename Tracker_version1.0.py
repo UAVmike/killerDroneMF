@@ -58,33 +58,27 @@ def get_vid_info(video):
 
 #resize function in case our frame is too big
 def resize(w,h,wmax,hmax):
-    if w>Wmax or h>Hmax:
-        ratio=1280/w
-        w=1280
-        h=int(h*ratio)
-    return w,h
+    if w > Wmax or h > Hmax:
+        ratio = 1280/w
+        w = 1280
+        h = int(h*ratio)
+    return w, h
 
 def initialize_modulation(modulation):
+    def init_by_modulation(num):
+        nonlocal B_box_width, B_box_heith, center_constant
+        B_box_width=round(h/num)
+        B_box_heith=round(w/num)
+        center_constant[0]=round(w/num)
+        center_constant[1]=round(h/num)
     if modulation==0:
-        B_box_width=round(h/40)
-        B_box_heith=round(w/40)
-        center_constant[0]=round(w/40)
-        center_constant[1]=round(h/40)
+        init_by_modulation(40)
     elif modulation==1:
-        B_box_width=round(h/60)
-        B_box_heith=round(w/60)
-        center_constant[0]=round(w/60)
-        center_constant[1]=round(h/60)
+        init_by_modulation(60)
     elif modulation==2:
-        B_box_width=round(h/80)
-        B_box_heith=round(w/80)
-        center_constant[0]=round(w/80)
-        center_constant[1]=round(h/80)
+        init_by_modulation(80)
     elif modulation==3:
-        B_box_width=round(h/100)
-        B_box_heith=round(w/100)
-        center_constant[0]=round(w/100)
-        center_constant[1]=round(h/100)
+        init_by_modulation(100)
     return B_box_width,B_box_heith,center_constant
   
 def Draw_circle_center(center,center_constant,frame):
@@ -196,7 +190,7 @@ if __name__ == '__main__':
 
     
     #initializing loop to start stream
-    while True:
+    while video.isOpened():
         counter_frame=counter_frame+1
                 
         #check time to calculate run time and fps
@@ -210,7 +204,7 @@ if __name__ == '__main__':
 
         #check to see if we can read the frame
         if not ok:
-            break
+            continue
         #initbb starts at 0 and only changes if we click to track, 
         #when we click initbb value changes and we enter the IF function
         if initbb:
